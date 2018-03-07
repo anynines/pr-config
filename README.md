@@ -2,6 +2,13 @@
 
 Web service to store and retrieve JSON information for (GitHub) Pull Requests.
 
+```bash
+export HTTP_USERNAME=admin
+export HTTP_PASSWORD=password
+
+pr-config 
+```
+
 # API
 
 ## GET /v1/org/repo/pr-id
