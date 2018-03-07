@@ -3,6 +3,7 @@
 Web service to store and retrieve JSON information for (GitHub) Pull Requests.
 
 ```bash
+export PORT=4455 # default value
 export HTTP_USERNAME=admin
 export HTTP_PASSWORD=password
 
