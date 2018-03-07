@@ -2,7 +2,7 @@ package web
 
 import "github.com/gin-gonic/gin"
 
-func Run() {
+func Run(defaultPort string) {
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -22,5 +22,5 @@ func Run() {
 
 	})
 
-	r.Run()
+	r.Run(":" + defaultPort)
 }
