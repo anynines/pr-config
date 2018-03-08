@@ -18,5 +18,10 @@ func main() {
 		port = "4455"
 	}
 
-	web.Run(port, username, password)
+	backendURL := os.Getenv("BACKEND_URL")
+	if len(backendURL) < 1 {
+		log.Fatalf("You need to set BACKEND_URL.")
+	}
+
+	web.Run(port, backendURL, username, password)
 }

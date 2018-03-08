@@ -10,6 +10,7 @@ docker run -d -p 6379:6379 redis redis-server --requirepass password
 export PORT=4455 # default value
 export HTTP_USERNAME=admin
 export HTTP_PASSWORD=password
+export BACKEND_URL=redis://admin:password@localhost
 
 # start pr-config
 go run main.go

@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Run(defaultPort string, username string, password string) {
+func Run(defaultPort string, backendURL string, username string, password string) {
 	r := gin.Default()
 
 	r.GET("/", func(c *gin.Context) {
