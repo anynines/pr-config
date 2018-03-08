@@ -1,0 +1,270 @@
+---
+resource_types:
+  - name: github-pr
+    type: docker-image
+    source:
+      repository: jtarchie/pr
+      tag: latest
+
+resources:
+  - name: version
+    type: semver
+    source:
+      initial_version: 0.0.1
+      driver: s3
+      bucket: ((binary-bucket-name))
+      key: version-pr-config
+      access_key_id: ((binary-bucket-aws-access-key))
+      secret_access_key: ((binary-bucket-aws-secret-access-key))
+      region_name: ((binary-bucket-region-name))
+  - name: pr-config
+    type: git
+    source:
+      uri: git@github.com:anynines/pr-config.git
+      branch: master
+      private_key: ((git-private-key))
+  - name: final-linux-release
+    type: s3
+    source:
+      bucket: ((binary-bucket-name))
+      regexp: pr-config-linux-amd64-(.*)
+      access_key_id: ((binary-bucket-aws-access-key))
+      secret_access_key: ((binary-bucket-aws-secret-access-key))
+      region_name: ((binary-bucket-region-name))
+  - name: final-darwin-release
+    type: s3
+    source:
+      bucket: ((binary-bucket-name))
+      regexp: pr-config-darwin-amd64-(.*)
+      access_key_id: ((binary-bucket-aws-access-key))
+      secret_access_key: ((binary-bucket-aws-secret-access-key))
+      region_name: ((binary-bucket-region-name))
+  - name: github-release
+    type: github-release
+    source:
+      owner: anynines
+      repository: pr-config
+      access_token: ((github-access-token))
+  - name: pull-request
+    type: github-pr
+    source:
+      repo: anynines/pr-config
+      access_token: ((github_access_token))
+      private_key: ((git_private_key))
+      uri: git@github.com:anynines/pr-config.git
+
+jobs:
+  - name: major
+    serial_groups:
+      - version
+    plan:
+      - get: version
+        params:
+          bump: major
+          pre: rc
+      - put: version
+        params:
+          file: version/version
+  - name: minor
+    serial_groups:
+      - version
+    plan:
+      - get: version
+        params:
+          bump: minor
+          pre: rc
+      - put: version
+        params:
+          file: version/version
+  - name: patch
+    serial_groups:
+      - version
+    plan:
+      - get: version
+        passed:
+          - ship
+        # Increase the patch version automatically after a ship
+        # so that the next ship use at least a new patch version
+        trigger: true
+        params:
+          bump: patch
+          pre: rc
+      - put: version
+        params:
+          file: version/version
+
+  - name: rc
+    serial_groups:
+      - version
+    plan:
+      - aggregate:
+        - get: pr-config
+        - get: version
+          params:
+            pre: rc
+      - put: version
+        params:
+          file: version/version
+  - name: testflight
+    plan:
+      - aggregate:
+        - get: pr-config
+          passed:
+            - rc
+          trigger: true
+        - get: version
+          passed:
+            - rc
+          trigger: true
+      - task: run-unit-tests
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: golang
+          inputs:
+            - name: pr-config
+          run:
+            path: pr-config/ci/scripts/run-unit-tests.sh
+  - name: ship
+    serial_groups:
+      - version
+    plan:
+      - aggregate:
+        - get: pr-config
+          passed:
+            - testflight
+          trigger: true
+        - get: version
+          passed:
+            - testflight
+          trigger: true
+          params:
+            bump: final
+      - aggregate:
+        - task: build-linux
+          config:
+            platform: linux
+            image_resource:
+              type: docker-image
+              source:
+                repository: golang
+            inputs:
+              - name: pr-config
+              - name: version
+            outputs:
+              - name: linux-binary
+            run:
+              path: pr-config/ci/scripts/build-binary.sh
+            params:
+              GOOS: linux
+              GOARCH: amd64
+        - task: build-darwin
+          config:
+            platform: linux
+            image_resource:
+              type: docker-image
+              source:
+                repository: golang
+            inputs:
+              - name: pr-config
+              - name: version
+            outputs:
+              - name: darwin-binary
+            run:
+              path: pr-config/ci/scripts/build-binary.sh
+            params:
+              GOOS: darwin
+              GOARCH: amd64
+      - aggregate:
+        - put: version
+          params:
+            file: version/version
+        - put: pr-config
+          params:
+            repository: pr-config
+            only_tag: true
+            tag: version/version
+            tag_prefix: v
+        - put: final-linux-release
+          params:
+            file: linux-binary/pr-config-linux-*
+            acl: public-read
+        - put: final-darwin-release
+          params:
+            file: darwin-binary/pr-config-darwin-*
+            acl: public-read
+
+  - name: github-release
+    plan:
+      - aggregate:
+        - get: pr-config
+          passed:
+            - ship
+          trigger: true
+        - get: final-linux-release
+          passed:
+            - ship
+          trigger: true
+        - get: final-darwin-release
+          passed:
+            - ship
+          trigger: true
+        - get: version
+          passed:
+            - ship
+          trigger: true
+      - task: build-release-artefacts
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: avarteqgmbh/pipeline-utils
+          inputs:
+            - name: pr-config
+            - name: version
+          outputs:
+            - name: release-artefacts
+          run:
+            path: pr-config/ci/scripts/build-release-artefacts.sh
+      - put: github-release
+        params:
+          name: release-artefacts/release-name
+          tag: release-artefacts/tag
+          commitish: release-artefacts/commitish
+          body: release-artefacts/notes.md
+          globs:
+            - final-linux-release/pr-config-*
+            - final-darwin-release/pr-config-*
+
+  - name: test-pr
+    plan:
+      - get: pr-config
+        resource: pull-request
+        trigger: true
+        version: every
+      - task: run-unit-tests
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: golang
+          inputs:
+            - name: pr-config
+          run:
+            path: pr-config/ci/scripts/unit-tests.sh
+        on_success:
+          put: pull-request
+          params:
+            path: pr-config
+            context: unit-tests
+            status: success
+        on_failure:
+          put: pull-request
+          params:
+            path: pr-config
+            context: unit-tests
+            status: failure

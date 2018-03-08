@@ -1,0 +1,11 @@
+---
+git-private-key: |
+  -----BEGIN RSA PRIVATE KEY-----
+  -----END RSA PRIVATE KEY-----
+
+github-access-token:
+
+binary-bucket-name: anynines-binaries
+binary-bucket-aws-access-key:
+binary-bucket-aws-secret-access-key:
+binary-bucket-region-name: eu-west-1
