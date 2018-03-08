@@ -3,11 +3,19 @@
 Web service to store and retrieve JSON information for (GitHub) Pull Requests.
 
 ```bash
+# setup redis
+docker run -d -p 6379:6379 redis redis-server --requirepass password
+
+# setup env variables
 export PORT=4455 # default value
 export HTTP_USERNAME=admin
 export HTTP_PASSWORD=password
 
-pr-config 
+# start pr-config
+go run main.go
+
+# set JSON data for anynines/project PR #1
+curl -v -u admin:password -X POST localhost:4455/v1/anynines/project/1 -d '{"test": "done"}'
 ```
 
 # API

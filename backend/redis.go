@@ -27,5 +27,7 @@ func NewRedisBackend(redisURL string) (*RedisBackend, error) {
 }
 
 func (r *RedisBackend) Write(key, value string) error {
-	return nil
+	// FIXME let's expire old information in the future
+	err := r.client.Set(key, value, 0).Err()
+	return err
 }
