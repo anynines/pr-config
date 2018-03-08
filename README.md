@@ -16,6 +16,7 @@ go run main.go
 
 # set JSON data for anynines/project PR #1
 curl -v -u admin:password -X POST localhost:4455/v1/anynines/project/1 -d '{"test": "done"}'
+curl -v -u admin:password -X GET localhost:4455/v1/anynines/project/1
 ```
 
 # API
