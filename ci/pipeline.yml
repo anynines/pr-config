@@ -49,8 +49,8 @@ resources:
     type: github-pr
     source:
       repo: anynines/pr-config
-      access_token: ((github_access_token))
-      private_key: ((git_private_key))
+      access_token: ((github-access-token))
+      private_key: ((git-private-key))
       uri: git@github.com:anynines/pr-config.git
 
 jobs:
