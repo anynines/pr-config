@@ -26,6 +26,9 @@ func Run(defaultPort string, username string, password string) {
 				"cache":  false,
 			})
 		})
+
+		authorized.POST(":org/:project/:pr", func(c *gin.Context) {
+		})
 	}
 
 	r.Run(":" + defaultPort)
