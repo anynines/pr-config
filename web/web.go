@@ -56,9 +56,18 @@ func Run(defaultPort string, username string, password string) {
 				return
 			}
 
-			// store as json string in backend
 			jsonStr := string(data)
-			b := backend.NewRedisBackend()
+
+			// init backend store
+			b, err := backend.NewRedisBackend("redis://admin:password@localhost")
+			if err != nil {
+				c.JSON(http.StatusServiceUnavailable, gin.H{
+					"error": fmt.Sprintf("Initializing backend failed: %s", err.Error()),
+				})
+				return
+			}
+
+			// store as json string in backend
 			err = b.Write(fmt.Sprintf("%s/%s/%s/%s", "pr-config", org, project, pr), jsonStr)
 			if err != nil {
 				c.JSON(http.StatusServiceUnavailable, gin.H{
