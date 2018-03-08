@@ -31,3 +31,8 @@ func (r *RedisBackend) Write(key, value string) error {
 	err := r.client.Set(key, value, 0).Err()
 	return err
 }
+
+func (r *RedisBackend) Read(key string) (string, error) {
+	val, err := r.client.Get(key).Result()
+	return val, err
+}

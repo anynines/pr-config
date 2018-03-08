@@ -25,14 +25,29 @@ func Run(defaultPort string, username string, password string) {
 
 	{
 		authorized.GET(":org/:project/:pr", func(c *gin.Context) {
-			_ = c.Param("org")
-			_ = c.Param("project")
-			_ = c.Param("pr")
+			org := c.Param("org")
+			project := c.Param("project")
+			pr := c.Param("pr")
 
-			c.JSON(200, gin.H{
-				"backup": true,
-				"cache":  false,
-			})
+			// init backend store
+			b, err := backend.NewRedisBackend("redis://admin:password@localhost")
+			if err != nil {
+				c.JSON(http.StatusServiceUnavailable, gin.H{
+					"error": fmt.Sprintf("Initializing backend failed: %s", err.Error()),
+				})
+				return
+			}
+
+			// read json string
+			jsonStr, err := b.Read(fmt.Sprintf("%s/%s/%s/%s", "pr-config", org, project, pr))
+			if err != nil {
+				c.JSON(http.StatusServiceUnavailable, gin.H{
+					"error": fmt.Sprintf("Backend: %s", err.Error()),
+				})
+				return
+			}
+
+			c.Data(200, "application/json; charset=utf-8", []byte(jsonStr))
 		})
 
 		authorized.POST(":org/:project/:pr", func(c *gin.Context) {
