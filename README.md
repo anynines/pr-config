@@ -22,7 +22,7 @@ curl -v -u admin:password -X GET localhost:4455/v1/anynines/project/1
 
 # API
 
-## GET /v1/org/repo/pr-id
+## GET /v1/:org/:repo/:pr-id
 
 ```
 curl -u admin:password -X GET localhost:4455/v1/anynines/cool-project/13
@@ -35,7 +35,7 @@ curl -u admin:password -X GET localhost:4455/v1/anynines/cool-project/13
 }
 ```
 
-## POST /v1/org/repo/pr-id
+## POST /v1/:org/:repo/:pr-id
 
 ```
 curl -u admin:password -X POST -H "Content-Type: application/json" localhost:4455/v1/anynines/cool-project/13 -d '{ "test-backup": true, "cache": false }'
