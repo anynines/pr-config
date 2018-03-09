@@ -40,6 +40,13 @@ func Run(defaultPort string, backendURL string, username string, password string
 
 			// read json string
 			jsonStr, err := b.Read(fmt.Sprintf("%s/%s/%s/%s", "pr-config", org, project, pr))
+			if err == backend.DataNotFoundError {
+				c.JSON(http.StatusNotFound, gin.H{
+					"error": "requested data has not been found in the backend",
+				})
+				return
+			}
+
 			if err != nil {
 				c.JSON(http.StatusServiceUnavailable, gin.H{
 					"error": fmt.Sprintf("Backend: %s", err.Error()),

@@ -34,5 +34,8 @@ func (r *RedisBackend) Write(key, value string) error {
 
 func (r *RedisBackend) Read(key string) (string, error) {
 	val, err := r.client.Get(key).Result()
+	if err == redis.Nil {
+		return val, DataNotFoundError
+	}
 	return val, err
 }
