@@ -1,0 +1,72 @@
+# github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7
+## explicit
+github.com/gin-contrib/sse
+# github.com/gin-gonic/gin v1.1.5-0.20170702092826-d459835d2b07
+## explicit
+github.com/gin-gonic/gin
+github.com/gin-gonic/gin/binding
+github.com/gin-gonic/gin/render
+# github.com/go-redis/redis v6.10.0+incompatible
+## explicit
+github.com/go-redis/redis
+github.com/go-redis/redis/internal
+github.com/go-redis/redis/internal/consistenthash
+github.com/go-redis/redis/internal/hashtag
+github.com/go-redis/redis/internal/pool
+github.com/go-redis/redis/internal/proto
+github.com/go-redis/redis/internal/singleflight
+github.com/go-redis/redis/internal/util
+# github.com/golang/protobuf v1.4.2
+github.com/golang/protobuf/proto
+# github.com/mattn/go-isatty v0.0.3
+## explicit
+github.com/mattn/go-isatty
+# github.com/onsi/ginkgo v1.14.1
+## explicit
+# github.com/onsi/gomega v1.10.2
+## explicit
+# github.com/stretchr/testify v1.6.1
+## explicit
+# github.com/ugorji/go v0.0.0-20180112141927-9831f2c3ac10
+## explicit
+github.com/ugorji/go/codec
+# golang.org/x/net v0.0.0-20200904194848-62affa334b73
+## explicit
+# golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
+# google.golang.org/protobuf v1.23.0
+google.golang.org/protobuf/encoding/prototext
+google.golang.org/protobuf/encoding/protowire
+google.golang.org/protobuf/internal/descfmt
+google.golang.org/protobuf/internal/descopts
+google.golang.org/protobuf/internal/detrand
+google.golang.org/protobuf/internal/encoding/defval
+google.golang.org/protobuf/internal/encoding/messageset
+google.golang.org/protobuf/internal/encoding/tag
+google.golang.org/protobuf/internal/encoding/text
+google.golang.org/protobuf/internal/errors
+google.golang.org/protobuf/internal/fieldnum
+google.golang.org/protobuf/internal/fieldsort
+google.golang.org/protobuf/internal/filedesc
+google.golang.org/protobuf/internal/filetype
+google.golang.org/protobuf/internal/flags
+google.golang.org/protobuf/internal/genname
+google.golang.org/protobuf/internal/impl
+google.golang.org/protobuf/internal/mapsort
+google.golang.org/protobuf/internal/pragma
+google.golang.org/protobuf/internal/set
+google.golang.org/protobuf/internal/strs
+google.golang.org/protobuf/internal/version
+google.golang.org/protobuf/proto
+google.golang.org/protobuf/reflect/protoreflect
+google.golang.org/protobuf/reflect/protoregistry
+google.golang.org/protobuf/runtime/protoiface
+google.golang.org/protobuf/runtime/protoimpl
+# gopkg.in/go-playground/assert.v1 v1.2.1
+## explicit
+# gopkg.in/go-playground/validator.v8 v8.18.2
+## explicit
+gopkg.in/go-playground/validator.v8
+# gopkg.in/yaml.v2 v2.3.0
+gopkg.in/yaml.v2
