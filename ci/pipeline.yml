@@ -221,7 +221,7 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: avarteqgmbh/pipeline-utils
+              repository: avarteqgmbh/pipeline-utils-ruby273
           inputs:
             - name: pr-config
             - name: version
