@@ -1,6 +1,6 @@
 # pr-config
 
-Web service to store and retrieve JSON information for (GitHub) pull requests.
+Web service to store & retrieve JSON information for (GitHub) pull requests.
 
 ```shell
 # setup redis
