@@ -1,11 +1,19 @@
-# github.com/gin-contrib/sse v0.0.0-20170109093832-22d885f9ecc7
-## explicit
+# github.com/gin-contrib/sse v0.1.0
 github.com/gin-contrib/sse
-# github.com/gin-gonic/gin v1.1.5-0.20170702092826-d459835d2b07
+# github.com/gin-gonic/gin v1.7.7
 ## explicit
 github.com/gin-gonic/gin
 github.com/gin-gonic/gin/binding
+github.com/gin-gonic/gin/internal/bytesconv
+github.com/gin-gonic/gin/internal/json
 github.com/gin-gonic/gin/render
+# github.com/go-playground/locales v0.13.0
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.17.0
+github.com/go-playground/universal-translator
+# github.com/go-playground/validator/v10 v10.4.1
+github.com/go-playground/validator/v10
 # github.com/go-redis/redis v6.10.0+incompatible
 ## explicit
 github.com/go-redis/redis
@@ -18,21 +26,30 @@ github.com/go-redis/redis/internal/singleflight
 github.com/go-redis/redis/internal/util
 # github.com/golang/protobuf v1.4.2
 github.com/golang/protobuf/proto
-# github.com/mattn/go-isatty v0.0.3
-## explicit
+# github.com/json-iterator/go v1.1.9
+github.com/json-iterator/go
+# github.com/leodido/go-urn v1.2.0
+github.com/leodido/go-urn
+# github.com/mattn/go-isatty v0.0.12
 github.com/mattn/go-isatty
+# github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421
+github.com/modern-go/concurrent
+# github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
+github.com/modern-go/reflect2
 # github.com/onsi/ginkgo v1.14.1
 ## explicit
 # github.com/onsi/gomega v1.10.2
 ## explicit
 # github.com/stretchr/testify v1.6.1
 ## explicit
-# github.com/ugorji/go v0.0.0-20180112141927-9831f2c3ac10
-## explicit
+# github.com/ugorji/go/codec v1.1.7
 github.com/ugorji/go/codec
+# golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
+golang.org/x/crypto/sha3
 # golang.org/x/net v0.0.0-20200904194848-62affa334b73
 ## explicit
 # golang.org/x/sys v0.0.0-20200519105757-fe76b779f299
+golang.org/x/sys/cpu
 golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
 # google.golang.org/protobuf v1.23.0
@@ -63,10 +80,5 @@ google.golang.org/protobuf/reflect/protoreflect
 google.golang.org/protobuf/reflect/protoregistry
 google.golang.org/protobuf/runtime/protoiface
 google.golang.org/protobuf/runtime/protoimpl
-# gopkg.in/go-playground/assert.v1 v1.2.1
-## explicit
-# gopkg.in/go-playground/validator.v8 v8.18.2
-## explicit
-gopkg.in/go-playground/validator.v8
 # gopkg.in/yaml.v2 v2.3.0
 gopkg.in/yaml.v2
